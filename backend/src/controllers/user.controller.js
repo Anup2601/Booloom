@@ -17,11 +17,21 @@ const login=async (req,res)=>{
             return res.status(httpStatus.NOT_FOUND).json({message:"User not found"});
         }
          // Compare passwords
-        if(bcrypt.compare(password,user.password)){
+         
+         if (!user.password) {
+            return res.status(httpStatus.UNAUTHORIZED).json({ message: "Invalid username or password" });
+        }
+
+        const isPasswordCorrect = await bcrypt.compare(password, user.password);
+
+        if(isPasswordCorrect){
             let token=crypto.randomBytes(20).toString("hex");
             user.token=token;
             await user.save();
             return res.status(httpStatus.OK).json({token:token});
+        }
+        else{
+            return res.status(httpStatus.UNAUTHORIZED).json({message:"Invalid username and Password"});
         }
     }catch(e){
         return res.status(500).json({message:`Somthing Went Wrong ${e}`});
@@ -35,7 +45,9 @@ const register=async (req,res)=>{
     if (!name || !username || !password) {
         return res.status(400).json({ message: "Provide name, username, and password" });
     }
-
+    if (password.length < 8) {
+        return res.status(400).json({ message: "Password must be at least 8 characters long" });
+    }
     try{
         const existingUser=await User.findOne({username});
         if(existingUser){
@@ -51,7 +63,8 @@ const register=async (req,res)=>{
         await newUser.save();
         res.status(httpStatus.CREATED).json({message:"User Registered"});
     }catch(e){
-        res.json({message:`Something went wrong ${e}`});
+
+        return res.json({message:`Something went wrong ${e}`});
     }
 }
 
