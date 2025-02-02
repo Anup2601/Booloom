@@ -3,16 +3,17 @@ import {createServer} from "node:http";
 import {Server} from "socket.io";
 import mongoose from "mongoose";
 import cors from "cors";
-import path from "node:path";
 import { connectToSocket } from "./controllers/socketManager.js";
 import userRoutes from "./routes/user_routs.js"
+// import http from "http";
+
 
 const app=express();
 const server=createServer(app);
 const io=connectToSocket(server);
 
 
-app.set("port", (process.env.PORT || 8080))
+app.set("port", (process.env.PORT || 5173))
 
 app.use(cors());
 app.use(express.json({limit:"100kb"}));
