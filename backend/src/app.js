@@ -13,7 +13,7 @@ const server=createServer(app);
 const io=connectToSocket(server);
 
 
-app.set("port", (process.env.PORT || 5173))
+app.set("port", (process.env.PORT || 8080))
 
 app.use(cors());
 app.use(express.json({limit:"100kb"}));

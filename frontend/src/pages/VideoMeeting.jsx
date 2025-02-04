@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react'
-import io from "socket.io-client";
+import io, { Socket } from "socket.io-client";
 import { Badge, IconButton, TextField } from '@mui/material';
 import { Button } from '@mui/material';
 import VideocamIcon from '@mui/icons-material/Videocam';
@@ -13,7 +13,7 @@ import StopScreenShareIcon from '@mui/icons-material/StopScreenShare'
 import ChatIcon from '@mui/icons-material/Chat'
 // import server from '../environment';
 
-const server_url = "http://localhost:5173"; 
+const server_url = "http://localhost:8080/"; 
 
 var connections = {};
 
@@ -30,19 +30,19 @@ export default function VideoMeetComponent() {
 
     let localVideoref = useRef();
 
-    let [videoAvailable, setVideoAvailable] = useState(true);
+    let [videoAvailable, setVideoAvailable] = useState();
 
-    let [audioAvailable, setAudioAvailable] = useState(true);
+    let [audioAvailable, setAudioAvailable] = useState()
 
-    let [video, setVideo] = useState([]);
+    let [video, setVideo] = useState("");
 
-    let [audio, setAudio] = useState();
+    let [audio, setAudio] = useState("");
 
-    let [screen, setScreen] = useState();
+    let [screen, setScreen] = useState("");
 
     let [showModal, setModal] = useState(true);
 
-    let [screenAvailable, setScreenAvailable] = useState();
+    let [screenAvailable, setScreenAvailable] = useState("");
 
     let [messages, setMessages] = useState([])
 
@@ -222,11 +222,11 @@ export default function VideoMeetComponent() {
             window.localStream.getTracks().forEach(track => track.stop())
         } catch (e) { console.log(e) }
 
-        window.localStream = stream
+        window.localStream = stream;
         localVideoref.current.srcObject = stream
 
         for (let id in connections) {
-            if (id === socketIdRef.current) continue
+            if (id === socketIdRef.current) continue;
 
             connections[id].addStream(window.localStream)
 
@@ -522,7 +522,7 @@ export default function VideoMeetComponent() {
                                 {screen === true ? <ScreenShareIcon /> : <StopScreenShareIcon />}
                             </IconButton> : <></>}
 
-                        <Badge badgeContent={newMessages} max={999} color='orange'>
+                        <Badge badgeContent={newMessages} max={999} color='secondary'>
                             <IconButton onClick={() => setModal(!showModal)} style={{ color: "white" }}>
                                 <ChatIcon />                        </IconButton>
                         </Badge>
