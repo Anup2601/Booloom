@@ -1,61 +1,188 @@
+/* General Styles for Video Call Container */
 .meetVideoContainer {
     position: relative;
-    height: 100vh;
+    height: 97vh;
     background: rgb(1, 4, 48);
-}
-
-.meetUserVideo {
+    overflow: hidden;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap; /* Allows wrapping on smaller screens */
+  }
+  
+  /* User's Own Video */
+  .meetUserVideo {
     position: absolute;
     bottom: 10vh;
+    left: 20px;
     height: 20vh;
     width: auto;
-    left: 0;
     border-radius: 20px;
-}
-
-.buttonContainers {
+    border: 2px solid #fff;
+    z-index: 10;
+    background-color: rgba(255, 255, 255, 0.1);
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5);
+  }
+  
+  /* Button Container for Controls */
+  .buttonContainers {
     position: absolute;
     width: 100vw;
-    bottom: 0;
+    bottom: 20px;
     text-align: center;
-}
-
-.buttonContainers svg {
+    z-index: 10;
+  }
+  
+  .buttonContainers svg {
     font-size: 3rem;
-}
-
-.conferenceView { 
-
+    margin: 0 10px;
+    cursor: pointer;
+    color: white;
+    transition: transform 0.2s ease-in-out;
+  }
+  
+  .buttonContainers svg:hover {
+    transform: scale(1.1);
+    color: #ff3b3b; /* Example hover effect */
+  }
+  
+  /* Conference View - Video for Other User */
+  .conferenceView {
     display: flex;
-    
-    padding: 10px;
-    gap: 10px;
-}
-
-.conferenceView  video {
-    width: 40vw;
-    height: 20vh;
-    min-width: 30vw;
-    border-radius: 10px;
-}
-
-.chatRoom {
+    justify-content: center;
+    align-items: center;
+    width: 70%; /* Adjusted width to prevent overlap with chat */
+    height: 85vh;
+    flex-shrink: 1; /* Allow resizing on smaller screens */
+  }
+  
+  .conferenceView video {
+    width: 100%;
+    height: 100%;
+    border-radius: 30px;
+    box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.6);
+    object-fit: cover; /* Ensures video fits nicely within its container */
+  }
+  
+  /* Chatroom Section */
+  .chatRoom {
     position: absolute;
-    height: 90vh;
-    right: 0;
+    top: 10px;
+    right: 20px;
+    height: 85vh;
+    width: 25%; /* Adjusted to fit alongside video */
     background: white;
     border-radius: 10px;
-    width: 30vw;
-    padding-inline: 20px;
-}
-
-.chatContainer {
+    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.3);
+    display: flex;
+    flex-direction: column;
+    z-index: 5;
+    overflow: hidden; /* Prevents overflow from escaping the box */
+  }
+  
+  /* Chat Container with Scroll */
+  .chatContainer {
     position: relative;
     height: 100%;
-}
-
-
-.chattingArea {
-    position: absolute;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto; /* Enables vertical scroll */
+    padding: 10px;
+  }
+  
+  .chatContainer::-webkit-scrollbar {
+    width: 8px;
+  }
+  
+  .chatContainer::-webkit-scrollbar-thumb {
+    background: #ccc;
+    border-radius: 10px;
+  }
+  
+  .chatContainer::-webkit-scrollbar-thumb:hover {
+    background: #aaa;
+  }
+  
+  /* Chatting Area Input */
+  .chattingArea {
+    position: sticky;
     bottom: 0;
-}
+    width: 100%;
+    padding: 10px;
+    background-color: rgba(240, 240, 240, 0.9);
+    border-top: 1px solid #ddd;
+    display: flex;
+    gap: 10px;
+  }
+  
+  .chattingArea input {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+  }
+  
+  .chattingArea button {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+  }
+  
+  .chattingArea button:hover {
+    background-color: #0056b3;
+  }
+  
+  /* Media Queries for Responsiveness */
+  
+  /* For small screens (mobile) */
+  @media (max-width: 768px) {
+    .meetVideoContainer {
+      flex-direction: column; /* Stack items vertically */
+      align-items: stretch;
+    }
+  
+    .conferenceView {
+      width: 100%; /* Take full width */
+      height: 60vh;
+    }
+  
+    .chatRoom {
+      position: relative;
+      width: 100%; /* Take full width */
+      height: 40vh;
+      margin-top: 10px;
+    }
+  
+    .meetUserVideo {
+      height: 15vh; /* Smaller video */
+      bottom: 5vh;
+      left: 10px;
+    }
+  
+    .buttonContainers svg {
+      font-size: 2rem; /* Smaller icons */
+    }
+  }
+  
+  /* For medium screens (tablet) */
+  @media (max-width: 1024px) {
+    .conferenceView {
+      width: 65%; /* Adjusted width */
+      height: 70vh;
+    }
+  
+    .chatRoom {
+      width: 30%;
+      height: 70vh;
+    }
+  
+    .meetUserVideo {
+      height: 18vh;
+    }
+  }
+  
